@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>photo viewer gallary</title>
+    <style>
+        body {
+            background-color:aqua;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .container {
+            margin: 20px;
+            padding: 20px;
+            background-color:blueviolet;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            width: 80%;
+        }
+        h1 {
+            color: #333333;
+            text-align: center;
+        }
+        .gallery-section {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+        .photo {
+            text-align: center;
+        }
+        .photo img {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .photo a.download-btn {
+            display: inline-block;
+            margin-top: 5px;
+            padding: 5px 10px;
+            background-color: #2196f3;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        .photo a.download-btn:hover {
+            background-color: #1976d2;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome,gust!</h1>
+        <div class="gallery-section">
+            {% for photo in photos %}
+                <div class="photo">
+                    <img src="{{ url_for('static', filename='uploads/' + photo) }}" alt="Photo">
+                    <a class="download-btn" href="{{ url_for('static', filename='uploads/' + photo) }}" download>Download</a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>
+

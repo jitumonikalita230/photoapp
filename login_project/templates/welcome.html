@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>photo vewing web</title>
+    <style>
+        body {
+            background-color: aqua;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .container {
+            margin: 20px;
+            padding: 20px;
+            background-color:blueviolet;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            width: 80%;
+        }
+        h1 {
+            color: #333333;
+            text-align: center;
+        }
+        .upload-section, .gallery-section {
+            margin-top: 20px;
+        }
+        .upload-section form {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+        .upload-section input[type="file"] {
+            padding: 10px;
+            border: 1px groove #ddd;
+            border-radius: 5px;
+        }
+        .upload-section button {
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .upload-section button:hover {
+            background-color: #45a049;
+        }
+        .gallery-section {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+        .photo {
+            text-align: center;
+        }
+        .photo img {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .photo form {
+            margin-top: 10px;
+        }
+        .photo button {
+            background-color: #f44336;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .photo button:hover {
+            background-color: #d32f2f;
+        }
+        .photo a.download-btn {
+            display: inline-block;
+            margin-top: 5px;
+            padding: 5px 10px;
+            background-color: #2196f3;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        .photo a.download-btn:hover {
+            background-color: #1976d2;
+        }
+        .messages {
+            text-align: center;
+            color: #333333;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome, {{ username }}!</h1>
+
+        <!-- Upload Section -->
+        <div class="upload-section">
+            <h2>Upload a New Picture</h2>
+            <form action="/welcome" method="post" enctype="multipart/form-data">
+                <input type="file" name="photo" accept="image/*" required>
+                <button type="submit">Upload</button>
+            </form>
+        </div>
+
+        <!-- Gallery Section -->
+        <div class="gallery-section">
+            <h2>Photo Gallery</h2>
+            {% for photo in photos %}
+                <div class="photo">
+                    <img src="{{ url_for('static', filename='uploads/' + photo) }}" alt="Photo">
+                    <form action="/welcome" method="post" style="display:inline;">
+                        <input type="hidden" name="delete_photo" value="{{ photo }}">
+                        <button type="submit">Delete</button>
+                    </form>
+                    <a class="download-btn" href="{{ url_for('static', filename='uploads/' + photo) }}" download>Download</a>
+                </div>
+            {% endfor %}
+        </div>
+
+        <!-- Flash Messages -->
+        <div class="messages">
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <p>{{ message }}</p>
+                {% endfor %}
+            {% endif %}
+            {% endwith %}
+        </div>
+    </div>
+</body>
+</html>
+
+
+
